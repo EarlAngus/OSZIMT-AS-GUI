@@ -1,0 +1,1 @@
+memberSearchIndex = [{"p":"window","c":"Database","l":"db()"},{"p":"window","c":"UserLogin","l":"main(String[])","url":"main(java.lang.String[])"},{"p":"window","c":"UserLogin","l":"UserLogin()","url":"%3Cinit%3E()"},{"p":"window","c":"Database","l":"validateCredentials(String, String)","url":"validateCredentials(java.lang.String,java.lang.String)"}]
