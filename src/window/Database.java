@@ -1,9 +1,5 @@
 package window;
 
-import java.awt.Desktop;
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -39,17 +35,6 @@ public class Database {
 		}
 		return instance;
 	}
-	
-	/**
-	 * Opens the phpMyAdmin-Website in the systems default browser.
-	 */
-	public void openPhpMyAdmin() {
-		try {
-			Desktop.getDesktop().browse(new URI("https://" + dbURL + "/mysqladmin/"));
-		} catch (IOException | URISyntaxException e1) {
-			e1.printStackTrace();
-		}
-	}
 
 	private Database() throws IllegalStateException {
 
@@ -65,6 +50,11 @@ public class Database {
 			JOptionPane.showMessageDialog(null, "Cannot connect the database.");
 			throw new IllegalStateException("Cannot connect the database.", e);
 		}
+	}
+
+	@SuppressWarnings("javadoc")
+	public String getDbURL() {
+		return dbURL;
 	}
 
 	/**

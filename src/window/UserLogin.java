@@ -1,12 +1,8 @@
 package window;
 
-import java.awt.Color;
-import java.awt.Cursor;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -16,6 +12,8 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
+
+import net.codejava.swing.hyperlink.JHyperlink;
 
 /**
  * The primary window of the application. It provides login capabilities for the
@@ -113,16 +111,11 @@ public class UserLogin extends JFrame {
 		fieldUsername.setBounds(145, 93, 144, 20);
 		contentPane.add(fieldUsername);
 
-		JLabel lblHyperlink = new JLabel("Open phpMyAdmin");
-		lblHyperlink.setForeground(Color.BLUE.darker());
+		JHyperlink lblHyperlink = new JHyperlink("Open phpMyAdmin");
+		String url = "https://" + Database.db().getDbURL() + "/mysqladmin/";
+		lblHyperlink.setURL(url);
+		lblHyperlink.setToolTipText("Go to " + url);
 		lblHyperlink.setBounds(10, 236, 114, 14);
-		lblHyperlink.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		lblHyperlink.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				Database.db().openPhpMyAdmin();
-			}
-		});
 		contentPane.add(lblHyperlink);
 	}
 
