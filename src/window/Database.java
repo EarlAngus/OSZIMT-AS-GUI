@@ -1,5 +1,9 @@
 package window;
 
+import java.awt.Desktop;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -18,6 +22,7 @@ import javax.swing.JOptionPane;
 public class Database {
 
 	private static Database instance = null;
+	private String dbURL = "w0186fcf.kasserver.com";
 	private String dbURI;
 	private String dbUser;
 	private String dbPass;
@@ -34,10 +39,21 @@ public class Database {
 		}
 		return instance;
 	}
+	
+	/**
+	 * Opens the phpMyAdmin-Website in the systems default browser.
+	 */
+	public void openPhpMyAdmin() {
+		try {
+			Desktop.getDesktop().browse(new URI("https://" + dbURL + "/mysqladmin/"));
+		} catch (IOException | URISyntaxException e1) {
+			e1.printStackTrace();
+		}
+	}
 
 	private Database() throws IllegalStateException {
 
-		this.dbURI = "jdbc:mysql://w0186fcf.kasserver.com:3306/d031cb54";
+		this.dbURI = "jdbc:mysql://" + dbURL + ":3306/d031cb54";
 		this.dbUser = "d031cb54";
 		this.dbPass = "w54aEfBbzDv9mMrb";
 
@@ -46,7 +62,8 @@ public class Database {
 			this.con = DriverManager.getConnection(dbURI, dbUser, dbPass);
 			System.out.println("Database connected!");
 		} catch (SQLException e) {
-			throw new IllegalStateException("Cannot connect the database!", e);
+			JOptionPane.showMessageDialog(null, "Cannot connect the database.");
+			throw new IllegalStateException("Cannot connect the database.", e);
 		}
 	}
 

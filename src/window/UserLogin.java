@@ -1,8 +1,12 @@
 package window;
 
+import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -10,8 +14,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
-import javax.swing.border.EmptyBorder;
 import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
 
 /**
  * The primary window of the application. It provides login capabilities for the
@@ -50,6 +54,8 @@ public class UserLogin extends JFrame {
 	 */
 	public UserLogin() {
 		initialize();
+		// initialize database
+		Database.db();
 	}
 
 	private void initialize() {
@@ -90,6 +96,7 @@ public class UserLogin extends JFrame {
 		JButton btnLogin = new JButton("Login");
 		btnLogin.setBounds(172, 213, 89, 23);
 		btnLogin.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				login();
 			}
@@ -105,6 +112,18 @@ public class UserLogin extends JFrame {
 		fieldUsername = new JTextField();
 		fieldUsername.setBounds(145, 93, 144, 20);
 		contentPane.add(fieldUsername);
+
+		JLabel lblHyperlink = new JLabel("Open phpMyAdmin");
+		lblHyperlink.setForeground(Color.BLUE.darker());
+		lblHyperlink.setBounds(10, 236, 114, 14);
+		lblHyperlink.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		lblHyperlink.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				Database.db().openPhpMyAdmin();
+			}
+		});
+		contentPane.add(lblHyperlink);
 	}
 
 	private void login() {
