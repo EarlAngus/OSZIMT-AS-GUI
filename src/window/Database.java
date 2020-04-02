@@ -4,9 +4,13 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.util.Vector;
 
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 
 /**
  * An object that represents a mySQL database. It provides methods for all
@@ -117,6 +121,70 @@ public class Database {
 			JOptionPane.showMessageDialog(null, "Duplicate username and password");
 		}
 		return false;
+	}
+	
+	public TableModel readTable() {
+		TableModel tm = null;
+		String query = "SELECT * FROM `Benutzer`";
+		PreparedStatement pst = null;
+		ResultSet rs = null;
+		try {
+			// execute SQL
+			pst = con.prepareStatement(query);
+			rs = pst.executeQuery();
+			// process result 
+			tm = buildTableModel(rs);
+		} catch (SQLException ex) {
+			// handle any errors
+			System.out.println("SQLException: " + ex.getMessage());
+			System.out.println("SQLState: " + ex.getSQLState());
+			System.out.println("VendorError: " + ex.getErrorCode());
+		} finally {
+			// release resources in reverse-order of
+			// their creation if they are no-longer needed
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException sqlEx) { // ignore SQLException
+				}
+				rs = null;
+			}
+			if (pst != null) {
+				try {
+					pst.close();
+				} catch (SQLException sqlEx) { // ignore SQLException
+				}
+				pst = null;
+			}
+		}
+
+		return tm ;
+	}
+	
+	private DefaultTableModel buildTableModel(ResultSet rs)
+	        throws SQLException {
+
+	    ResultSetMetaData metaData = rs.getMetaData();
+
+	    // names of columns
+	    Vector<String> columnNames = new Vector<String>();
+	    int columnCount = metaData.getColumnCount();
+	    for (int column = 1; column <= columnCount; column++) {
+	        columnNames.add(metaData.getColumnName(column));
+	    }
+
+	    // data of the table
+	    Vector<Vector<Object>> data = new Vector<Vector<Object>>();
+	    while (rs.next()) {
+	        Vector<Object> vector = new Vector<Object>();
+	        for (int columnIndex = 1; columnIndex <= columnCount; columnIndex++) {
+	            vector.add(rs.getObject(columnIndex));
+	        }
+	        data.add(vector);
+	    }
+
+	    return new DefaultTableModel(data, columnNames);
+
 	}
 
 }

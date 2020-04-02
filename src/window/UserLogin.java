@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -40,6 +41,7 @@ public class UserLogin extends JFrame {
 				try {
 					UserLogin frame = new UserLogin();
 					frame.setVisible(true);
+					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -112,7 +114,7 @@ public class UserLogin extends JFrame {
 		contentPane.add(fieldUsername);
 
 		JHyperlink lblHyperlink = new JHyperlink("Open phpMyAdmin");
-		String url = "https://" + Database.db().getDbURL() + "/mysqladmin/";
+		String url = ""; // "https://" + Database.db().getDbURL() + "/mysqladmin/";
 		lblHyperlink.setURL(url);
 		lblHyperlink.setToolTipText("Go to " + url);
 		lblHyperlink.setBounds(10, 236, 114, 14);
@@ -122,8 +124,12 @@ public class UserLogin extends JFrame {
 	private void login() {
 		if (isValidLogin()) {
 			System.out.println("Login erfolgreich"); // for DEBUG
+			this.dispose();
+			Telephonebook tb = new Telephonebook();
+			tb.setVisible(true);
 		} else {
 			System.out.println("Login fehlgeschlagen");// for DEBUG
+			JOptionPane.showMessageDialog(null, "Falsche Logindaten, bitte erneut versuchen.");
 		}
 	}
 
