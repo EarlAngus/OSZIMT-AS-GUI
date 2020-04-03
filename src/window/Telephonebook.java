@@ -1,15 +1,10 @@
 package window;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.JTable;
-import java.awt.Color;
 import javax.swing.JScrollBar;
 
 public class Telephonebook extends JFrame {
